@@ -12,5 +12,21 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var display: UILabel!
     
+    var userIsInTheMiddleOfTypingANumber:Bool = false
+    
+    @IBAction func appenDigit(sender: UIButton) {
+        let digit = sender.currentTitle!
+        if userIsInTheMiddleOfTypingANumber
+        {
+            display.text! += digit
+        }else
+        {
+            display.text! = digit
+            userIsInTheMiddleOfTypingANumber = true
+        }
+        
+        println("digit = \(digit)")
+    }
+    
 }
 
