@@ -65,7 +65,9 @@ class ViewController: UIViewController {
                 
                 performOperation(){ $1 - $0 }
                 */
-                performOperation{ $1 - $0 }
+                performOperation { $1 - $0 }
+            case "√":
+                performOperation1 { sqrt($0) }
             default: break
         }
     }
@@ -74,6 +76,14 @@ class ViewController: UIViewController {
     {
         if operandStack.count == 2 {
             dispalyValue = operation(operandStack.removeLast(), operandStack.removeLast())
+            enter()
+        }
+    }
+    // 理论上可以根据参数判定那个参数，但是此处老是报错，所以改了一下名字
+    func performOperation1 (operation:Double -> Double)
+    {
+        if operandStack.count >= 1 {
+            dispalyValue = operation(operandStack.removeLast())
             enter()
         }
     }
