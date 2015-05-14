@@ -18,15 +18,89 @@ class ViewController: UIViewController {
         let digit = sender.currentTitle!
         if userIsInTheMiddleOfTypingANumber
         {
-            display.text! += digit
+            display.text = display.text! + digit
         }else
         {
-            display.text! = digit
+            display.text = digit
             userIsInTheMiddleOfTypingANumber = true
         }
-        
-        println("digit = \(digit)")
     }
+    // 操作符
+    @IBAction func operate(sender: UIButton) {
+        let opetation = sender.currentTitle!
+        if userIsInTheMiddleOfTypingANumber
+        {
+            enter()
+        }
+        switch opetation  {
+            case "×" :
+                // 直接写
+                if operandStack.count == 2 {
+                    dispalyValue  = operandStack.removeLast()*operandStack.removeLast()
+                    enter()
+                }
+            
+            case "÷" :
+                // 传递 方法名
+                performOperation(divide)
+            
+            case "+" :
+                // 闭包实现
+                performOperation({ (op1:Double, op2:Double) -> Double in
+                    return op1 + op2
+                })
+            case "−" :
+                // 闭包实现，自动推断
+                /*
+                performOperation({ (op1, op2) -> Double in
+                return op1 + op2
+                })
+                
+               
+                performOperation({ (op1, op2) ->  in op1 + op2
+                })
+                
+                performOperation({ $1 - $0 })
+                
+                
+                performOperation(){ $1 - $0 }
+                */
+                performOperation{ $1 - $0 }
+            default: break
+        }
+    }
+    
+    func performOperation(operation:(Double,Double)->Double)
+    {
+        if operandStack.count == 2 {
+            dispalyValue = operation(operandStack.removeLast(), operandStack.removeLast())
+            enter()
+        }
+    }
+    
+    func divide(op1:Double,op2:Double)->Double {
+        return op2/op1
+    }
+//    var operandStack:Array<Double> =  Array<Double>()
+    var operandStack =  Array<Double>()
+    
+    var dispalyValue:Double {
+        get {
+            return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
+        }
+        set {
+            display.text = "\(newValue)";
+            userIsInTheMiddleOfTypingANumber = false
+        }
+    }
+    
+    @IBAction func enter() {
+        userIsInTheMiddleOfTypingANumber = false
+        operandStack.append(dispalyValue)
+        println("operationStack = \(operandStack)")
+    }
+    
+    
     
 }
 
