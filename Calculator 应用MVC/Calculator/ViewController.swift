@@ -14,6 +14,8 @@ class ViewController: UIViewController {
     
     var userIsInTheMiddleOfTypingANumber:Bool = false
     
+    var brain = CalculatorBrain()
+    
     @IBAction func appenDigit(sender: UIButton) {
         let digit = sender.currentTitle!
         if userIsInTheMiddleOfTypingANumber
@@ -32,66 +34,9 @@ class ViewController: UIViewController {
         {
             enter()
         }
-        switch opetation  {
-            case "×" :
-                // 直接写
-                if operandStack.count == 2 {
-                    dispalyValue  = operandStack.removeLast()*operandStack.removeLast()
-                    enter()
-                }
-            
-            case "÷" :
-                // 传递 方法名
-                performOperation(divide)
-            
-            case "+" :
-                // 闭包实现
-                performOperation({ (op1:Double, op2:Double) -> Double in
-                    return op1 + op2
-                })
-            case "−" :
-                // 闭包实现，自动推断
-                /*
-                performOperation({ (op1, op2) -> Double in
-                return op1 + op2
-                })
-                
-               
-                performOperation({ (op1, op2) ->  in op1 + op2
-                })
-                
-                performOperation({ $1 - $0 })
-                
-                
-                performOperation(){ $1 - $0 }
-                */
-                performOperation { $1 - $0 }
-            case "√":
-                performOperation1 { sqrt($0) }
-            default: break
-        }
+        
     }
-    
-    func performOperation(operation:(Double,Double)->Double)
-    {
-        if operandStack.count == 2 {
-            dispalyValue = operation(operandStack.removeLast(), operandStack.removeLast())
-            enter()
-        }
-    }
-    // 理论上可以根据参数判定那个参数，但是此处老是报错，所以改了一下名字
-    func performOperation1 (operation:Double -> Double)
-    {
-        if operandStack.count >= 1 {
-            dispalyValue = operation(operandStack.removeLast())
-            enter()
-        }
-    }
-    
-    func divide(op1:Double,op2:Double)->Double {
-        return op2/op1
-    }
-//    var operandStack:Array<Double> =  Array<Double>()
+
     var operandStack =  Array<Double>()
     
     var dispalyValue:Double {
@@ -106,8 +51,7 @@ class ViewController: UIViewController {
     
     @IBAction func enter() {
         userIsInTheMiddleOfTypingANumber = false
-        operandStack.append(dispalyValue)
-        println("operationStack = \(operandStack)")
+        brain.pushOperand(dispalyValue)
     }
     
     
