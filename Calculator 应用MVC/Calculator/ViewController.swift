@@ -13,7 +13,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var display: UILabel!
     
     var userIsInTheMiddleOfTypingANumber:Bool = false
-    
     var brain = CalculatorBrain()
     
     @IBAction func appenDigit(sender: UIButton) {
@@ -29,16 +28,17 @@ class ViewController: UIViewController {
     }
     // 操作符
     @IBAction func operate(sender: UIButton) {
-        let opetation = sender.currentTitle!
-        if userIsInTheMiddleOfTypingANumber
-        {
+        // 添加 算法符号 加减乘除
+        
+        if userIsInTheMiddleOfTypingANumber {
             enter()
+        }
+        if let opetation = sender.currentTitle {
+            brain.performOperation(opetation)
         }
         
     }
-
-    var operandStack =  Array<Double>()
-    
+    // 数据类型的转换
     var dispalyValue:Double {
         get {
             return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
@@ -48,13 +48,15 @@ class ViewController: UIViewController {
             userIsInTheMiddleOfTypingANumber = false
         }
     }
-    
+    // 回车
     @IBAction func enter() {
         userIsInTheMiddleOfTypingANumber = false
-        brain.pushOperand(dispalyValue)
+        if let result = brain.pushOperand(dispalyValue) {
+            dispalyValue = result
+        } else {
+            display.text = "Error"
+        }
     }
-    
-    
-    
+
 }
 

@@ -10,14 +10,33 @@ import Foundation
 
 class CalculatorBrain
 {
-//
-    private enum Op {
+    /*
+    枚举没有继承，在后边加冒号":"，代表遵守协议protocol
+    */
+    private enum Op: Printable {
         case Operand(Double)
         case UnaryOperation(String,Double -> Double)
         case BinaryOperation(String,(Double,Double) -> Double)
+        // Printable 协议
+        var description: String {
+            
+            get {
+                switch self
+                {
+                case .Operand(let operand):
+                    return "\(operand)"
+                case .UnaryOperation(let des, _):
+                    return des
+                case .BinaryOperation(let des,_):
+                    return des
+                }
+            }
+        }
     }
 //    var opStack = Array<ops>()
     private var opStack = [Op]()
+    
+    private var TemporaryOpStack = [Op]()
     
 //    var knownOps = Dictionary<String,Op>()
     private var knownOps = [String:Op]()
@@ -63,7 +82,7 @@ class CalculatorBrain
                             return (operation(operand1, operand2), operand2Evaluation.remainingOps)
                         }
                     }
-                }
+            }
         }
         return (nil,ops)
     }
@@ -72,9 +91,15 @@ class CalculatorBrain
         let (result, _) = evaluate(opStack)
         return result
     }
-    
-    func pushOperand(operand:Double) {
+    // 添加操作
+    func pushOperand(operand:Double) -> Double? {
         opStack.append(Op.Operand(operand))
+        if !TemporaryOpStack.isEmpty {
+            var getOp = TemporaryOpStack.removeLast()
+            opStack.append(getOp)
+        }
+        println("\(opStack)")
+        return evaluate1()
     }
     
     func performOperation(symbol:String) {
