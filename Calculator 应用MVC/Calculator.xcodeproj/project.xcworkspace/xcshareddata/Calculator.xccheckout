@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>08804157-4E74-4197-94FC-FDBE59BD89C4</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>Calculator</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>88B22C34F17D30A5E7559AA2D7173801A6132092</key>
 		<string>https://github.com/ralbatr/iOSDev.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Calculator 应用MVC/Calculator.xcodeproj/project.xcworkspace</string>
+	<string>Calculator 应用MVC/Calculator.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>88B22C34F17D30A5E7559AA2D7173801A6132092</key>
