@@ -29,10 +29,11 @@ class ViewController: UIViewController {
     // 操作符
     @IBAction func operate(sender: UIButton) {
         // 添加 算法符号 加减乘除
-        
+        // 如果用户之前输入的是数字，把数字推入到堆栈中
         if userIsInTheMiddleOfTypingANumber {
             enter()
         }
+        // 如果用户之前输入的是运算符号
         if let opetation = sender.currentTitle {
             brain.performOperation(opetation)
         }

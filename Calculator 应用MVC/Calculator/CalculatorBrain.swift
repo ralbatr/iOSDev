@@ -63,6 +63,7 @@ class CalculatorBrain
         
         if !ops.isEmpty
         {
+            // 因为ops不可变，所以使用个中间变量
             var remainingOps = ops;
             let op = remainingOps.removeLast()
             switch op
