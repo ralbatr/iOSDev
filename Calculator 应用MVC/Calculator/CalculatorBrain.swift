@@ -58,13 +58,13 @@ class CalculatorBrain
     var program: AnyObject { // 保证是一个列表
         get {
             
-            return opStack.map($0.description)
+//            return opStack.map($0.description)
             
-//            var returnValue = Array<String>()
-//            for op in opStack {
-//                returnValue.append(op.description)
-//            }
-//            return returnValue
+            var returnValue = Array<String>()
+            for op in opStack {
+                returnValue.append(op.description)
+            }
+            return returnValue
         }
         set {
             if let opSymbols = newValue as? Array<String> {
