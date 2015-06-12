@@ -54,6 +54,32 @@ class CalculatorBrain
         knownOps["÷"] = Op.BinaryOperation("÷"){ $1 / $0 }
         knownOps["√"] = Op.UnaryOperation("√",sqrt)
     }
+    
+    var program: AnyObject { // 保证是一个列表
+        get {
+            
+            return opStack.map($0.description)
+            
+//            var returnValue = Array<String>()
+//            for op in opStack {
+//                returnValue.append(op.description)
+//            }
+//            return returnValue
+        }
+        set {
+            if let opSymbols = newValue as? Array<String> {
+                var newOpStack = [Op]()
+                for opSymbol in opSymbols {
+                    if let op = knownOps[opSymbol] {
+                        newOpStack.append(op)
+                    } else if let operand = NSNumberFormatter().numberFromString(opSymbol)?.doubleValue {
+                        newOpStack.append(.Operand(operand))
+                    }
+                }
+                opStack = newOpStack
+            }
+        }
+    }
     /*
     类跟结构体的两大区别：
     1、类可以被继承，结构体不可以
@@ -90,6 +116,7 @@ class CalculatorBrain
     
     func evaluate1() -> Double? {
         let (result, _) = evaluate(opStack)
+//        println("\(opStack) = \(result) with \(remainder) left over")
         return result
     }
     // 添加操作
